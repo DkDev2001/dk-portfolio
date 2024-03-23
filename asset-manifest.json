@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dk-portfolio/static/css/main.080e4dee.css",
-    "main.js": "/dk-portfolio/static/js/main.a4745da7.js",
+    "main.css": "/dk-portfolio/static/css/main.bd2eee07.css",
+    "main.js": "/dk-portfolio/static/js/main.745caafb.js",
     "static/js/453.5ca77fae.chunk.js": "/dk-portfolio/static/js/453.5ca77fae.chunk.js",
     "static/media/xincks.svg": "/dk-portfolio/static/media/xincks.bc14d7ef8ca92e474ebcec0ffa503cd3.svg",
     "static/media/partyapp.svg": "/dk-portfolio/static/media/partyapp.6ae908864921c3daf1712d8cc49588b7.svg",
@@ -68,12 +68,12 @@
     "static/media/CSS3.svg": "/dk-portfolio/static/media/CSS3.aba07ba74e37dbcfa7b97390fc4c5bb8.svg",
     "static/media/Html 5.svg": "/dk-portfolio/static/media/Html 5.ec3471a3269bd5b81613264e9514f60b.svg",
     "static/media/Gitlab.svg": "/dk-portfolio/static/media/Gitlab.c6e95a8477f898515ae47efeb98b039a.svg",
-    "main.080e4dee.css.map": "/dk-portfolio/static/css/main.080e4dee.css.map",
-    "main.a4745da7.js.map": "/dk-portfolio/static/js/main.a4745da7.js.map",
+    "main.bd2eee07.css.map": "/dk-portfolio/static/css/main.bd2eee07.css.map",
+    "main.745caafb.js.map": "/dk-portfolio/static/js/main.745caafb.js.map",
     "453.5ca77fae.chunk.js.map": "/dk-portfolio/static/js/453.5ca77fae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.080e4dee.css",
-    "static/js/main.a4745da7.js"
+    "static/css/main.bd2eee07.css",
+    "static/js/main.745caafb.js"
   ]
 }
