@@ -74,11 +74,11 @@ export const Banner = () => {
                         <div className={isVisible ? "animate__animated animate__fadeInTopLeft" : ""}>
                             <span className="tagline">Hello👋</span>
                             <h1>
-                                {'I\'m D'}<img src={harru} />{'K, '}
+                                {'I\'m DK'}<img src={harru} />{', '}
                                 <span className="wrap">{ text}</span>
                             </h1>
                             <p>Have a Software Proposal?</p>
-                            <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button>Let’s Discuss<ChatText size={25} /></button></a>
+                            <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a>
                         </div>}
                     </TrackVisibility>
                     </Col>

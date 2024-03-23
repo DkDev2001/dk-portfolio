@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dk-portfolio/static/css/main.3484c69c.css",
-    "main.js": "/dk-portfolio/static/js/main.deabcfcf.js",
+    "main.css": "/dk-portfolio/static/css/main.080e4dee.css",
+    "main.js": "/dk-portfolio/static/js/main.a4745da7.js",
     "static/js/453.5ca77fae.chunk.js": "/dk-portfolio/static/js/453.5ca77fae.chunk.js",
     "static/media/xincks.svg": "/dk-portfolio/static/media/xincks.bc14d7ef8ca92e474ebcec0ffa503cd3.svg",
     "static/media/partyapp.svg": "/dk-portfolio/static/media/partyapp.6ae908864921c3daf1712d8cc49588b7.svg",
@@ -40,7 +40,7 @@
     "static/media/flutterexp.svg": "/dk-portfolio/static/media/flutterexp.65b1f88db49a0ef4f81ad0a3d6a87742.svg",
     "static/media/webexp.svg": "/dk-portfolio/static/media/webexp.74aec68644b66b52b6fdc4d873b21803.svg",
     "static/media/androidexp.svg": "/dk-portfolio/static/media/androidexp.451370284f0515042d158bddabc820e7.svg",
-    "static/media/logo.svg": "/dk-portfolio/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/logo.svg": "/dk-portfolio/static/media/logo.67dfd5491cb2a1c867b38c4a0051cbf7.svg",
     "static/media/React.svg": "/dk-portfolio/static/media/React.d9a20e0bfe46cc03b338c9cc1157a82e.svg",
     "static/media/Androidstudio.svg": "/dk-portfolio/static/media/Androidstudio.634f46caa90f47a6f8340ed104dc1354.svg",
     "static/media/instagram.svg": "/dk-portfolio/static/media/instagram.777c212200f47d722596d1cad6f08db5.svg",
@@ -68,12 +68,12 @@
     "static/media/CSS3.svg": "/dk-portfolio/static/media/CSS3.aba07ba74e37dbcfa7b97390fc4c5bb8.svg",
     "static/media/Html 5.svg": "/dk-portfolio/static/media/Html 5.ec3471a3269bd5b81613264e9514f60b.svg",
     "static/media/Gitlab.svg": "/dk-portfolio/static/media/Gitlab.c6e95a8477f898515ae47efeb98b039a.svg",
-    "main.3484c69c.css.map": "/dk-portfolio/static/css/main.3484c69c.css.map",
-    "main.deabcfcf.js.map": "/dk-portfolio/static/js/main.deabcfcf.js.map",
+    "main.080e4dee.css.map": "/dk-portfolio/static/css/main.080e4dee.css.map",
+    "main.a4745da7.js.map": "/dk-portfolio/static/js/main.a4745da7.js.map",
     "453.5ca77fae.chunk.js.map": "/dk-portfolio/static/js/453.5ca77fae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3484c69c.css",
-    "static/js/main.deabcfcf.js"
+    "static/css/main.080e4dee.css",
+    "static/js/main.a4745da7.js"
   ]
 }
