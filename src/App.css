@@ -296,6 +296,10 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   margin-left: 15px;
 }
 
+.banner .container {
+  margin-top: 15px;
+}
+
 /* .banner .container {
   animation: updown 3s linear infinite;
 }
