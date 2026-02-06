@@ -41,7 +41,7 @@ export const Footer = () => {
                     
                 </Container>
                 <footer className="copyright">
-                    <p>&copy; 2024 All Rights Reserved</p>
+                    <p>&copy; 2026 All Rights Reserved</p>
                 </footer>
             </div>
         </section>
