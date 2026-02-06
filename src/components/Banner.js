@@ -78,7 +78,8 @@ export const Banner = () => {
                                 <span className="wrap">{ text}</span>
                             </h1>
                             <p>Have a Software Proposal?</p>
-                            <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a>
+                            <a target="_blank" href="https://www.fiverr.com/s/zWavKro"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a>
+                            {/* <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a> */}
                         </div>}
                     </TrackVisibility>
                     </Col>

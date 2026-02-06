@@ -56,9 +56,12 @@ export const NavBar = () => {
                 <a href="#"><img src={gmail} alt="" /></a>
                 <a href="#"><img src={instagram} alt="" /></a>
               </div> */}
-              <HashLink target="_blank" to="https://wa.me/919360603898?text=I've%20a%20software%20proposal">
+              <HashLink target="_blank" to="https://www.fiverr.com/s/zWavKro">
                 <button className="vvd"><span>Let’s Connect</span></button>
               </HashLink>
+              {/* <HashLink target="_blank" to="https://wa.me/919360603898?text=I've%20a%20software%20proposal">
+                <button className="vvd"><span>Let’s Connect</span></button>
+              </HashLink> */}
             </span>
           </Navbar.Collapse>
         </Container>

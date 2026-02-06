@@ -26,13 +26,14 @@ export const Footer = () => {
                                     <p>Want to get in touch? I'd love to hear from you. Here's how you can reach me...</p>
                                 </Col>
                                 <Col className="footer-icons">
-                                    <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button className="vvd"><span>Let’s Connect</span></button></a>
+                                    <a target="_blank" href="https://www.fiverr.com/s/zWavKro"><button className="vvd"><span>Let’s Connect</span></button></a>
+                                    {/* <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button className="vvd"><span>Let’s Connect</span></button></a>
                                     <div className="social-icon">
                                         <a target="_blank" href="https://www.linkedin.com/in/deepak-kumar-r-179714219"><img src={linkedin} alt="linkedin" /></a>
                                         <a target="_blank" href="https://dk-o9a8130.slack.com/"><img src={slack} alt="slack" /></a>
                                         <a target="_blank" href="mailto:dkdeepaknov@gmail.com"><img src={gmail} alt="gmail" /></a>
                                         <a target="_blank" href="https://www.instagram.com/d_k_dev_?igsh=MTZ5M290bG91cHY5aA=="><img src={instagram} alt="instagram" /></a>
-                                    </div>
+                                    </div> */}
                                 </Col>
                             </Row>
                         </div>}
