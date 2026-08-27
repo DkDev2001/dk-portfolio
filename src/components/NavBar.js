@@ -1,71 +1,95 @@
 import { useState, useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from '../assets/img/logo.svg';
-import linkedin from '../assets/img/linkedin.svg';
-import slack from '../assets/img/slack.svg';
-import gmail from '../assets/img/gmail.svg';
-import instagram from '../assets/img/instagram.svg';
-import { HashLink } from 'react-router-hash-link';
-import {
-  BrowserRouter as Router
-} from "react-router-dom";
+import { useFetch } from "../hooks/useFetch";
+import { getContact } from "../services/api";
+import { pickPrimary } from "../utils/contact";
 
-export const NavBar = () => {
+const isOn = (settings, key) => {
+  const v = settings ? settings[key] : undefined;
+  if (v === undefined || v === null) return true;
+  return v === "1" || v === 1 || v === true;
+};
 
-  const [activeLink, setActiveLink] = useState('home');
+export const NavBar = ({ settings = {} }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const onHome = location.pathname === "/";
+
+  const { data: links } = useFetch(getContact, []);
+  const primary = pickPrimary(links, settings);
+
+  // Single source of truth for the highlighted nav item.
+  const activeId =
+    location.pathname === "/projects" ? "projects" :
+    location.pathname === "/about" ? "about" :
+    activeSection;
 
   useEffect(() => {
+    const sections = ["home", "skills", "services"];
     const onScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      setScrolled(window.scrollY > 50);
+      if (location.pathname !== "/") return;
+      const line = 160; // just below the fixed navbar
+      let current = "home";
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        if (r.top <= line && r.bottom > line) current = id;
       }
-    }
-
-    window.addEventListener("scroll", onScroll);
-
+      setActiveSection((prev) => (prev === current ? prev : current));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [])
+  }, [location.pathname]);
 
-  const onUpdateActiveLink = (value) => {
-    setActiveLink(value);
-  }
+  // Scroll to a section on Home; if on another route, go Home first then scroll.
+  const goSection = (id) => (e) => {
+    e.preventDefault();
+    setActiveSection(id);
+    const scroll = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    };
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(scroll, 150);
+    } else {
+      scroll();
+    }
+  };
 
   return (
-    <Router>
-      <Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
-        <Container>
-          <Navbar.Brand href="/">
-            <img src={logo} alt="Logo" />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav">
-            <span className="navbar-toggler-icon"></span>
-          </Navbar.Toggle>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link href="#home" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-              <Nav.Link href="#skills" className={activeLink === 'skills' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('skills')}>Skills</Nav.Link>
-              <Nav.Link href="#projects" className={activeLink === 'projects' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('projects')}>Projects</Nav.Link>
-            </Nav>
-            <span className="navbar-text">
-              {/* <div className="social-icon">
-                <a href="#"><img src={linkedin} alt="" /></a>
-                <a href="#"><img src={slack} alt="" /></a>
-                <a href="#"><img src={gmail} alt="" /></a>
-                <a href="#"><img src={instagram} alt="" /></a>
-              </div> */}
-              <HashLink target="_blank" to="https://www.fiverr.com/s/zWavKro">
-                <button className="vvd"><span>Let’s Connect</span></button>
-              </HashLink>
-              {/* <HashLink target="_blank" to="https://wa.me/919360603898?text=I've%20a%20software%20proposal">
-                <button className="vvd"><span>Let’s Connect</span></button>
-              </HashLink> */}
-            </span>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </Router>
-  )
-}
+    <Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          <img src={logo} alt="Logo" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <span className="navbar-toggler-icon"></span>
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto" activeKey={activeId}>
+            <Nav.Link eventKey="home" className="navbar-link" onClick={goSection("home")} href="/#home">Home</Nav.Link>
+            <Nav.Link eventKey="skills" className="navbar-link" onClick={goSection("skills")} href="/#skills">Skills</Nav.Link>
+            <Nav.Link eventKey="services" className="navbar-link" onClick={goSection("services")} href="/#services">Services</Nav.Link>
+            <Nav.Link eventKey="projects" as={Link} to="/projects" className="navbar-link">Projects</Nav.Link>
+            {isOn(settings, "about_visible") && <Nav.Link eventKey="about" as={Link} to="/about" className="navbar-link">About</Nav.Link>}
+          </Nav>
+          <span className="navbar-text">
+            {primary && (
+              <a target="_blank" rel="noreferrer" href={primary.url}>
+                <button className="vvd"><span>{primary.label || "Let’s Connect"}</span></button>
+              </a>
+            )}
+          </span>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};

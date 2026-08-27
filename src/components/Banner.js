@@ -4,97 +4,98 @@ import { ChatText } from "react-bootstrap-icons";
 import bannerlottie from '../assets/img/bannerlottie.json'
 import harru from '../assets/img/harru.svg';
 import lottie from 'lottie-web';
-import 'animate.css';
-import TrackVisibility from 'react-on-screen';
+import { Reveal } from "./Reveal";
+import { useFetch } from "../hooks/useFetch";
+import { getContact, getTitles } from "../services/api";
+import { pickPrimary } from "../utils/contact";
 
-export const Banner = () => {
+const DEFAULT_TITLES = ['Mobile App Developer', 'Web Developer'];
+const PERIOD = 2000;
+
+export const Banner = ({ settings = {} }) => {
     const [loopNum, setLoopNum] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
-    const toRotate = ['Mobile App Developer', 'Web Developer'];
-    const [text, setText] = useState(0);
-    const [delta, setDelta] = useState(300 - Math.random * 100);
-    const [index, setIndex] = useState(1);
-    const period = 1000;
+    const [text, setText] = useState('');
+    const [delta, setDelta] = useState(300 - Math.random() * 100);
+
+    const { data: titlesData } = useFetch(getTitles, []);
+    const toRotate = (titlesData && titlesData.length)
+        ? titlesData.map((t) => t.text)
+        : DEFAULT_TITLES;
+
+    const { data: links } = useFetch(getContact, []);
+    const primary = pickPrimary(links, settings);
 
     useEffect(() => {
-        let ticker = setInterval(() => {
-            tick();
-        }, delta);
+        const ticker = setInterval(() => { tick(); }, delta);
+        return () => clearInterval(ticker);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [text]);
 
-        return () => { clearInterval(ticker) };
-        }, [text])
-    
     const tick = () => {
-        let i = loopNum % toRotate.length;
-        let fullText = toRotate[i];
-        let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+        const i = loopNum % toRotate.length;
+        const fullText = toRotate[i];
+        const updatedText = isDeleting
+            ? fullText.substring(0, text.length - 1)
+            : fullText.substring(0, text.length + 1);
 
         setText(updatedText);
 
         if (isDeleting) {
-            setDelta(prevDelta => prevDelta / 2);
+            setDelta((prev) => prev / 2);
         }
 
         if (!isDeleting && updatedText === fullText) {
             setIsDeleting(true);
-            setIndex(prevIndex => prevIndex - 1);
-            setDelta(period);
+            setDelta(PERIOD);
         } else if (isDeleting && updatedText === '') {
             setIsDeleting(false);
             setLoopNum(loopNum + 1);
-            setIndex(1);
             setDelta(500);
         } else {
-            setIndex(prevIndex => prevIndex + 1);
+            setDelta(120);
         }
-    }
-    
+    };
+
     const container = useRef(null);
 
     useEffect(() => {
         const instance = lottie.loadAnimation({
-        container: container.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: bannerlottie
-        })
-
-        // Return clean up function here
+            container: container.current,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: bannerlottie
+        });
         return () => instance.destroy();
-    }, [])
+    }, []);
 
-    return(
+    return (
         <section className="banner" id="home">
             <Container>
                 <Row className="align-items-center">
                     <Col xs={12} md={6} xl={7}>
-                    <TrackVisibility>
-                        {({ isVisible }) =>
-                        <div className={isVisible ? "animate__animated animate__fadeInTopLeft" : ""}>
+                        <Reveal animation="fadeInTopLeft">
                             <span className="tagline">Hello👋</span>
                             <h1>
-                                {'I\'m DK'}<img src={harru} />{', '}
-                                <span className="wrap">{ text}</span>
+                                {'I\'m DK'}<img src={harru} alt="wave" />{', '}
+                                <span className="wrap">{text}</span>
                             </h1>
                             <p>Have a Software Proposal?</p>
-                            <a target="_blank" href="https://www.fiverr.com/s/zWavKro"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a>
-                            {/* <a target="_blank" href="https://wa.me/919360603898?text=I've%20a%20software%20proposal"><button>Let’s Discuss With Deepak<ChatText size={25} /></button></a> */}
-                        </div>}
-                    </TrackVisibility>
+                            {primary && (
+                                <a target="_blank" rel="noreferrer" href={primary.url}>
+                                    <button>Let’s Discuss With Deepak<ChatText size={25} /></button>
+                                </a>
+                            )}
+                        </Reveal>
                     </Col>
                     <Col xs={12} md={6} xl={5}>
-                        <TrackVisibility>
-                        {({ isVisible }) =>
-                            <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
-                                    <div className="container" ref={container}></div>
-                            </div>}
-                        </TrackVisibility>
+                        <Reveal animation="zoomIn">
+                            <div className="container" ref={container}></div>
+                        </Reveal>
                     </Col>
                 </Row>
             </Container>
         </section>
-    )
-}
-
-
+    );
+};
