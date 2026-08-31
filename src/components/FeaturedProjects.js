@@ -19,10 +19,12 @@ export const FeaturedProjects = ({ settings = {} }) => {
     const desc = settings.projects_desc || DEFAULT_DESC;
     const showDesc = isOn(settings, "projects_desc_visible");
 
-    const all = projects || [];
-    const featured = all.filter((p) => p.featured == 1);
-    // fallback: first 6 by sort if nothing is flagged featured
-    const shown = (featured.length ? featured : all).slice(0, 6);
+    // Home section lists projects marked "show on home", newest first.
+    const byNewest = (a, b) => (b.completed_at || "").localeCompare(a.completed_at || "");
+    const all = (projects || []).filter((p) => p.visible != 0);
+    const home = all.filter((p) => p.show_on_home == 1).slice().sort(byNewest);
+    // fallback: newest 6 if nothing is flagged for home
+    const shown = (home.length ? home : all.slice().sort(byNewest)).slice(0, 6);
 
     return (
         <section className="project" id="projects">
@@ -41,8 +43,10 @@ export const FeaturedProjects = ({ settings = {} }) => {
                                             key={p.id}
                                             title={p.title}
                                             description={p.description}
+                                            shortDescription={p.short_description}
                                             image={p.image}
                                             platforms={p.platforms}
+                                            frameType={p.frame_type}
                                             to={`/projects/${p.id}`}
                                         />
                                     ))}

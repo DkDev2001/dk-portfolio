@@ -15,6 +15,7 @@ const isOn = (settings, key) => {
 export const NavBar = ({ settings = {} }) => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const onHome = location.pathname === "/";
@@ -24,9 +25,12 @@ export const NavBar = ({ settings = {} }) => {
 
   // Single source of truth for the highlighted nav item.
   const activeId =
-    location.pathname === "/projects" ? "projects" :
+    location.pathname.startsWith("/projects") ? "projects" :
     location.pathname === "/about" ? "about" :
     activeSection;
+
+  // Collapse the mobile menu whenever the route changes.
+  useEffect(() => { setExpanded(false); }, [location.pathname]);
 
   useEffect(() => {
     const sections = ["home", "skills", "services"];
@@ -52,6 +56,7 @@ export const NavBar = ({ settings = {} }) => {
   const goSection = (id) => (e) => {
     e.preventDefault();
     setActiveSection(id);
+    setExpanded(false);
     const scroll = () => {
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -65,7 +70,7 @@ export const NavBar = ({ settings = {} }) => {
   };
 
   return (
-    <Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
+    <Navbar expand="lg" expanded={expanded} onToggle={setExpanded} className={scrolled ? "scrolled" : ""}>
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img src={logo} alt="Logo" />
@@ -78,8 +83,8 @@ export const NavBar = ({ settings = {} }) => {
             <Nav.Link eventKey="home" className="navbar-link" onClick={goSection("home")} href="/#home">Home</Nav.Link>
             <Nav.Link eventKey="skills" className="navbar-link" onClick={goSection("skills")} href="/#skills">Skills</Nav.Link>
             <Nav.Link eventKey="services" className="navbar-link" onClick={goSection("services")} href="/#services">Services</Nav.Link>
-            <Nav.Link eventKey="projects" as={Link} to="/projects" className="navbar-link">Projects</Nav.Link>
-            {isOn(settings, "about_visible") && <Nav.Link eventKey="about" as={Link} to="/about" className="navbar-link">About</Nav.Link>}
+            {isOn(settings, "projects_visible") && <Nav.Link eventKey="projects" as={Link} to="/projects" className="navbar-link" onClick={() => setExpanded(false)}>Projects</Nav.Link>}
+            {isOn(settings, "about_visible") && <Nav.Link eventKey="about" as={Link} to="/about" className="navbar-link" onClick={() => setExpanded(false)}>About</Nav.Link>}
           </Nav>
           <span className="navbar-text">
             {primary && (

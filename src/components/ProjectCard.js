@@ -29,14 +29,14 @@ const PlatformBadges = ({ platforms }) => {
     );
 };
 
-export const ProjectCard = ({ id, title, description, image, platforms, to }) => {
+export const ProjectCard = ({ id, title, description, shortDescription, image, platforms, frameType, to }) => {
     const inner = (
-        <div className="proj-imgbx">
+        <div className={`proj-imgbx fx-tilt ${frameType === "web" ? "proj-imgbx--web" : ""}`}>
             <PlatformBadges platforms={platforms} />
-            <PhoneFrame src={image} alt={title} />
+            <PhoneFrame src={image} alt={title} type={frameType} />
             <h5>{title}</h5>
             <div className="proj-txtx">
-                <span>{description}</span>
+                <span>{shortDescription || description}</span>
             </div>
         </div>
     );

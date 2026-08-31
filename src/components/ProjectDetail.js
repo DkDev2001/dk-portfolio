@@ -4,6 +4,7 @@ import { GooglePlay, Apple, Globe2, ArrowLeft, Android2 } from "react-bootstrap-
 import { useFetch } from "../hooks/useFetch";
 import { getProject } from "../services/api";
 import { PhoneFrame } from "./PhoneFrame";
+import { Reveal } from "./Reveal";
 import { PageSkeleton } from "./Skeleton";
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -41,15 +42,23 @@ export const ProjectDetail = () => {
         <section className="project-detail">
             <Container>
                 <Link to="/projects" className="detail-back"><ArrowLeft /> All projects</Link>
-                <Row className="align-items-center">
+                <Row className="align-items-start">
                     <Col xs={12} md={5} className="detail-phone">
-                        <PhoneFrame src={project.image} alt={project.title} />
+                        <div className="detail-phone__sticky">
+                            {project.frame_type === "web" ? (
+                                <Reveal animation="zoomIn">
+                                    <PhoneFrame src={project.image} alt={project.title} type="web" />
+                                </Reveal>
+                            ) : (
+                                <PhoneFrame src={project.image} alt={project.title} type={project.frame_type} />
+                            )}
+                        </div>
                     </Col>
                     <Col xs={12} md={7} className="detail-info">
                         <div className="detail-badges">
                             {platforms.map((p) => {
-                                const { label, Icon } = PLATFORM_META[p];
-                                return <span className="detail-plat" key={p}><Icon size={15} /> {label}</span>;
+                                const { label, Icon, cls } = PLATFORM_META[p];
+                                return <span className={`detail-plat ${cls}`} key={p}><Icon size={16} /> {label}</span>;
                             })}
                         </div>
                         <h1>{project.title}</h1>

@@ -24,13 +24,13 @@ export const Services = () => {
                     <Col>
                         <h2>Services💡</h2>
                         <p className="section-sub">What I can build for you</p>
-                        <Row>
+                        <Row className="justify-content-center">
                             {services.map((s, i) => {
                                 const Icon = fallbackIcon(s.title);
                                 return (
                                     <Col xs={12} sm={6} lg={3} key={s.id}>
                                         <Reveal animation="fadeInUp" delay={i * 90}>
-                                            <div className="service-card">
+                                            <div className="service-card fx-card">
                                                 <div className="service-icon">
                                                     {s.icon ? <img src={s.icon} alt={s.title} loading="lazy" /> : <Icon size={30} />}
                                                 </div>

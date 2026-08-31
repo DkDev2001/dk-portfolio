@@ -19,7 +19,7 @@ export const Home = ({ settings = {} }) => (
             <Skills settings={settings} />}
         {isOn(settings, "services_visible") && <Services />}
         {isOn(settings, "stats_visible") && <Stats />}
-        {isOn(settings, "projects_visible") && <FeaturedProjects settings={settings} />}
+        {isOn(settings, "projects_visible") && isOn(settings, "home_projects_visible") && <FeaturedProjects settings={settings} />}
         {isOn(settings, "testimonials_visible") && <Testimonials />}
         {isOn(settings, "company_visible") && <Companies />}
     </>

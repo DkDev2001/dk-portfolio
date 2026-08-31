@@ -3,6 +3,9 @@ import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { NavBar } from "./components/NavBar";
+import { CardFX } from "./components/CardFX";
+import { Fireflies } from "./components/Fireflies";
+import { Smoke } from "./components/Smoke";
 import { Footer } from "./components/Footer";
 import { Home } from "./components/Home";
 import { PageSkeleton } from "./components/Skeleton";
@@ -67,14 +70,17 @@ function App() {
       </Helmet>
 
       <div className="App">
+        {isOn(s, "smoke_visible") && <Smoke />}
+        <Fireflies />
+        <CardFX />
         <ScrollToTop />
         <NavBar settings={s} />
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home settings={s} />} />
             <Route path="/about" element={<AboutPage settings={s} />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:id" element={<ProjectDetail />} />
+            {isOn(s, "projects_visible") && <Route path="/projects" element={<ProjectsPage settings={s} />} />}
+            {isOn(s, "projects_visible") && <Route path="/projects/:id" element={<ProjectDetail />} />}
           </Routes>
         </Suspense>
         {isOn(s, "contact_visible") && <Footer settings={s} />}

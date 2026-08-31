@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { ChatText } from "react-bootstrap-icons";
 import bannerlottie from '../assets/img/bannerlottie.json'
-import harru from '../assets/img/harru.svg';
 import lottie from 'lottie-web';
 import { Reveal } from "./Reveal";
 import { useFetch } from "../hooks/useFetch";
@@ -78,7 +77,7 @@ export const Banner = ({ settings = {} }) => {
                         <Reveal animation="fadeInTopLeft">
                             <span className="tagline">Hello👋</span>
                             <h1>
-                                {'I\'m DK'}<img src={harru} alt="wave" />{', '}
+                                {'I\'m DK, '}
                                 <span className="wrap">{text}</span>
                             </h1>
                             <p>Have a Software Proposal?</p>

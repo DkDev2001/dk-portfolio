@@ -62,7 +62,25 @@
 .service-card p { color: #C9C9C9; font-size: 14.5px; line-height: 1.5em; margin: 0; }
 
 /************ Stats ************/
-.stats-section { padding: 10px 0 40px; }
+.stats-section { padding: 60px 0 55px; }
+.stats-glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 24px;
+  padding: 30px 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.30);
+}
+@media (min-width: 768px) {
+  .stats-glass [class*="col-"] + [class*="col-"] .stat-item::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 16%;
+    height: 68%; width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  }
+}
 
 /************ Testimonials ************/
 .testimonials { padding: 60px 0; }
@@ -71,7 +89,7 @@
 .tst-slider { padding-bottom: 20px; }
 .tst-card {
   background: transparent; border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 20px; padding: 28px; margin: 0 12px 10px;
+  border-radius: 20px; padding: 28px; margin: 10px 12px;
 }
 .tst-stars { color: #f5b301; font-size: 18px; letter-spacing: 2px; display: inline-flex; gap: 3px; }
 .tst-quote { color: #E6E6E6; font-size: 17px; line-height: 1.6em; font-style: italic; margin: 16px 0 20px; }
@@ -98,16 +116,55 @@
 .proj-search::placeholder { color: #9a9ab5; }
 
 /************ Project detail ************/
-.project-detail { padding: 130px 0 70px; }
-.detail-back { display: inline-flex; align-items: center; gap: 7px; color: #cbb6ff; font-weight: 600; margin-bottom: 20px; }
+.project-detail { padding: 110px 0 50px; }
+.detail-back { display: inline-flex; align-items: center; gap: 7px; color: #cbb6ff; font-weight: 600; margin-bottom: 16px; }
 .detail-back:hover { color: #fff; }
-.detail-phone { text-align: center; }
-.detail-phone .phone-mock { width: 74%; margin: 0 auto; }
+.detail-phone { display: flex; align-items: center; justify-content: center; }
+.detail-phone__sticky { width: 100%; display: flex; align-items: center; justify-content: center; }
+
+/* Entrance: the device falls in, rotating, and settles face-front. */
+@keyframes device-drop {
+  0%   { transform: translateY(-85%) rotateZ(-40deg) rotateY(32deg); opacity: 0; }
+  55%  { transform: translateY(5%) rotateZ(11deg) rotateY(-11deg); opacity: 1; }
+  78%  { transform: translateY(0) rotateZ(-4deg) rotateY(4deg); }
+  100% { transform: translateY(0) rotateZ(0deg) rotateY(0deg); opacity: 1; }
+}
+/* On the detail page the phone ends flat/front-facing (override the tilt). */
+.detail-phone .phone-mock__inner {
+  transform: none;
+  transform-origin: 50% 40%;
+  animation: device-drop 1.25s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+}
+/* Web frame uses the About-page image effect (animate.css zoomIn via <Reveal>). */
+@media (prefers-reduced-motion: reduce) {
+  .detail-phone .phone-mock__inner { animation: none; transform: none; }
+}
+/* size the phone by height so the whole image fits the viewport with no scroll */
+.detail-phone .phone-mock { width: auto; height: min(calc(100vh - 220px), 620px); margin: 0 auto; }
+/* Desktop: keep the device centered in the viewport while the long description
+   scrolls beside it, so the full image is always visible without scrolling. */
+@media (min-width: 768px) {
+  .detail-phone__sticky {
+    position: sticky;
+    top: 96px;
+    height: calc(100vh - 130px);
+  }
+}
 .detail-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-.detail-plat { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #fff; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 16px; }
+.detail-plat { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #fff; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); padding: 5px 13px; border-radius: 16px; }
+.detail-plat.badge-android svg { color: #3DDC84; }
+.detail-plat.badge-android { border-color: rgba(61,220,132,0.4); background: rgba(61,220,132,0.10); }
+.detail-plat.badge-ios svg { color: #EDEDED; }
+.detail-plat.badge-ios { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.10); }
+.detail-plat.badge-web svg { color: #4A9EFF; }
+.detail-plat.badge-web { border-color: rgba(74,158,255,0.4); background: rgba(74,158,255,0.10); }
+@media (max-width: 767px) {
+  .detail-phone .phone-mock { height: auto; width: 60%; margin: 0 auto 26px; }
+  .detail-info { text-align: left; }
+}
 .detail-info h1 { font-size: 44px; font-weight: 700; }
 .detail-date { color: #B8B8B8; }
-.detail-desc { color: #E6E6E6; font-size: 18px; line-height: 1.6em; }
+.detail-desc { color: #E6E6E6; font-size: 18px; line-height: 1.6em; white-space: pre-line; }
 .detail-tech { margin: 20px 0; }
 .detail-tech h6 { color: #9a9ab5; letter-spacing: 1px; text-transform: uppercase; font-size: 13px; margin-bottom: 10px; }
 .tech-chip { display: inline-block; margin: 0 8px 8px 0; padding: 6px 14px; border-radius: 16px; font-size: 13.5px; color: #fff; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); }
@@ -178,18 +235,96 @@
 /* two-class selectors to beat `.proj-imgbx img { width:50% }` */
 .phone-mock .phone-mock__shot {
   position: absolute;
-  /* explicit box (left/top + width/height) so any-size <img> is constrained here,
-     not its intrinsic size. width = 100-16.99-17.17, height = 100-7.6-5.57 */
-  left: 16.99%; top: 7.6%;
-  width: 65.84%; height: 86.83%;
-  /* contain: any-size screenshot scales down to fit fully inside the screen */
-  object-fit: contain;
-  object-position: center;
+  /* Screen glass (measured from phone_frame.png): sides start at 5.46% from the
+     top (the notch only dips to 8.5% at centre). Filling from 5.46% down puts the
+     screenshot BEHIND the notch too, so the opaque notch overlays it like a real
+     phone. left 16.99%, right 17.17%, bottom 5.57%. */
+  left: 16.99%; top: 5.46%;
+  width: 65.84%; height: 88.97%;
+  /* cover: fills the whole screen, cropping overflow (no letterbox) */
+  object-fit: cover;
+  object-position: center top;
   background: transparent;
-  border-radius: 9% / 5.5%;
+  border-radius: 11% / 6%;
   z-index: 1;
   margin: 0;
 }
+/* ===== Web / laptop mockup ===== */
+.web-mock {
+  width: 92%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* The laptop screen fits the screenshot's real shape (bar + image), so the FULL
+   image always shows — no crop, no empty space, both edges inside the frame. */
+.web-mock__screen {
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: #0d0620;
+  border: 7px solid #232037;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.42);
+}
+.web-mock__bar {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  background: #2a2542;
+}
+.web-mock__bar span { width: 8px; height: 8px; border-radius: 50%; background: #5a5470; }
+.web-mock__bar span:nth-child(1) { background: #ff5f57; }
+.web-mock__bar span:nth-child(2) { background: #febc2e; }
+.web-mock__bar span:nth-child(3) { background: #28c840; }
+/* Two-class selector beats `.proj-imgbx img { width:50% }`. */
+.web-mock .web-mock__shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 24px;
+  object-fit: contain;
+  background: #14092b;
+  margin: 0;
+}
+.web-mock__base {
+  width: 116%;
+  height: 13px;
+  background: linear-gradient(180deg, #3a3550, #201b34);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+}
+.web-mock__base::after {
+  content: "";
+  display: block;
+  width: 16%;
+  height: 4px;
+  margin: 0 auto;
+  background: #14101f;
+  border-radius: 0 0 6px 6px;
+}
+/* Card context: give the web frame the SAME box height as the phone frame so
+   every project card is the same height (badge + title line up). The phone-mock
+   is width 56% with aspect 1130/1812 → box height ≈ 89.8% of card width. Match
+   that height with a reduced width, and center the laptop inside the box. */
+/* Card: keep the outer box the SAME height as the phone frame (uniform grid) and
+   centre the fit-to-image laptop inside it. Smaller browser bar at card scale. */
+.proj-imgbx .web-mock {
+  width: 66%;
+  aspect-ratio: 66 / 89.8; /* ≈ phone-frame box; short/landscape shots line up. No
+                              overflow clip, so a tall shot just grows (frame stays whole). */
+  margin: 18px auto 8px;
+  justify-content: center;
+}
+.proj-imgbx .web-mock__bar { height: 15px; }
+/* Detail page: full image, slightly narrower so it doesn't touch the text. */
+.detail-phone .web-mock { width: 80%; }
+.detail-phone .web-mock__bar { height: 30px; }
+
 .phone-mock .phone-mock__frame {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -238,6 +373,7 @@
 }
 .stats-row { margin-top: 30px; margin-bottom: 10px; }
 .stat-item {
+  position: relative;
   text-align: center;
   padding: 18px 14px;
   transition: 0.3s ease;
@@ -297,15 +433,256 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 75px;
+  background-color: #11071F;
 }
 
 body {
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
-  background-color: #11071F !important;
+  background-color: transparent !important;
   color: #fff !important;
   font-family: 'Centra', sans-serif !important;
+}
+
+/* ===== Smoke + Fireflies background canvases ===== */
+.smoke {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: #11071F;
+}
+.fireflies {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* ===== Simple hover: outer border + inner gradient (companies, testimonials) ===== */
+.hover-frame {
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+.hover-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(170, 54, 124, 0.16), rgba(74, 47, 189, 0.12));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+.hover-frame:hover::after { opacity: 1; }
+.hover-frame:hover {
+  border-color: rgba(170, 54, 124, 0.55);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.30);
+  transform: translateY(-6px);
+}
+.hover-frame > * { position: relative; z-index: 1; }
+
+/* ===== Interactive card FX: 3D tilt + cursor spotlight + gradient border ===== */
+.fx-card,
+.fx-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  will-change: transform;
+}
+.fx-card.fx-active,
+.fx-tilt.fx-active {
+  transition-duration: 0.08s;
+}
+
+/* gradient border ring (fx-card only) */
+.fx-card { position: relative; }
+.fx-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, #AA367C, #4A2FBD);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.fx-card.fx-active::before { opacity: 1; }
+
+/* cursor spotlight (fx-card only) */
+.fx-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(320px circle at var(--px, 50%) var(--py, 50%), rgba(170, 54, 124, 0.22), rgba(74, 47, 189, 0.10) 40%, transparent 62%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.fx-card.fx-active::after { opacity: 1; }
+
+/* keep card content above the overlays */
+.fx-card > * { position: relative; z-index: 3; }
+
+.fx-card.fx-active {
+  border-color: transparent;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.38), 0 0 26px rgba(170, 54, 124, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-card, .fx-tilt { transform: none !important; transition: none; }
+}
+
+/* ===== Gradient micro-accents (D) ===== */
+/* Primary button: gradient shine sweep on hover */
+.vvd { position: relative; overflow: hidden; }
+.vvd::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.vvd:hover::after { left: 140%; }
+
+/* Active nav underline: flowing gradient (loops seamlessly) */
+@keyframes nav-underline {
+  to { background-position: -200% 0; }
+}
+
+/* ===== Aurora background (fixed, behind all content) ===== */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: #11071F;
+}
+
+.aurora__blob {
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.55;
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+
+/* magenta */
+.aurora__blob--1 {
+  width: 52vw;
+  height: 52vw;
+  top: -6vh;
+  left: -6vw;
+  background: radial-gradient(circle at 35% 35%, #C13A93 0%, rgba(193,58,147,0.22) 42%, transparent 62%);
+  animation: aurora-drift-1 24s ease-in-out infinite alternate;
+}
+
+/* violet */
+.aurora__blob--2 {
+  width: 50vw;
+  height: 50vw;
+  top: 4vh;
+  right: -8vw;
+  background: radial-gradient(circle at 60% 40%, #5B3CE0 0%, rgba(91,60,224,0.22) 42%, transparent 62%);
+  animation: aurora-drift-2 30s ease-in-out infinite alternate;
+}
+
+/* pink accent */
+.aurora__blob--3 {
+  width: 46vw;
+  height: 46vw;
+  bottom: -8vh;
+  left: 10vw;
+  background: radial-gradient(circle at 50% 50%, #F729E3 0%, rgba(247,41,227,0.16) 42%, transparent 60%);
+  opacity: 0.42;
+  animation: aurora-drift-3 36s ease-in-out infinite alternate;
+}
+
+/* deep indigo glow */
+.aurora__blob--4 {
+  width: 44vw;
+  height: 44vw;
+  bottom: 0;
+  right: 6vw;
+  background: radial-gradient(circle at 40% 60%, #763CAC 0%, rgba(118,60,172,0.22) 42%, transparent 62%);
+  animation: aurora-drift-4 28s ease-in-out infinite alternate;
+}
+
+/* Soft glow that follows the cursor (added by JS on fine-pointer devices) */
+.aurora__cursor {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 40%),
+    rgba(170, 54, 124, 0.22),
+    rgba(74, 47, 189, 0.12) 40%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+.aurora--cursor-on .aurora__cursor {
+  opacity: 1;
+}
+
+/* faint noise so gradients never band on dark screens */
+.aurora__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes aurora-drift-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(8vw, 10vh, 0) scale(1.25); }
+}
+@keyframes aurora-drift-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1.1); }
+  100% { transform: translate3d(-10vw, 8vh, 0) scale(0.9); }
+}
+@keyframes aurora-drift-3 {
+  0%   { transform: translate3d(0, 0, 0) scale(0.95); }
+  100% { transform: translate3d(12vw, -8vh, 0) scale(1.3); }
+}
+@keyframes aurora-drift-4 {
+  0%   { transform: translate3d(0, 0, 0) scale(1.15); }
+  100% { transform: translate3d(-8vw, -10vh, 0) scale(0.95); }
+}
+
+/* Lighter footprint on phones */
+@media (max-width: 768px) {
+  .aurora__blob { filter: blur(60px); }
+  .aurora__blob--3 { display: none; }
+}
+
+/* Accessibility: hold still for users who ask for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora__blob { animation: none !important; }
 }
 
 h1,
@@ -392,6 +769,7 @@ nav.navbar .navbar-nav .nav-link.navbar-link {
   font-size: 18px;
   opacity: 0.75;
   position: relative;
+  transition: opacity 0.3s ease;
 }
 
 nav.navbar .navbar-nav a.nav-link.navbar-link:hover,
@@ -401,12 +779,29 @@ nav.navbar .navbar-nav a.nav-link.navbar-link.active {
 nav.navbar .navbar-nav a.nav-link.navbar-link.active {
   font-weight: 600;
 }
-nav.navbar .navbar-nav a.nav-link.navbar-link.active::after {
+nav.navbar .navbar-nav a.nav-link.navbar-link::after {
   content: "";
   position: absolute;
   left: 25px; right: 25px; bottom: 2px;
   height: 3px; border-radius: 3px;
-  background: linear-gradient(90deg, #F729E3, #763CAC);
+  background: linear-gradient(90deg, #F729E3, #763CAC, #F729E3);
+  background-size: 200% 100%;
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+  animation: nav-underline 3s linear infinite;
+  pointer-events: none;
+}
+nav.navbar .navbar-nav a.nav-link.navbar-link.active::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+/* Mobile: short indicator instead of a full-width underline */
+@media (max-width: 991px) {
+  nav.navbar .navbar-nav a.nav-link.navbar-link::after {
+    left: 25px; right: auto; width: 26px; bottom: 4px;
+  }
 }
 
 span.navbar-text {
@@ -760,6 +1155,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   margin: 0 auto;
 }
 
+.contri-link { display: block; text-decoration: none; color: inherit; }
 .projects-sub-bx .contri-bx {
   width: 100%;
   height: 180px;
@@ -772,10 +1168,6 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   background: transparent;
   border: 1px solid rgba(255,255,255,0.10);
   transition: 0.35s ease;
-}
-.projects-sub-bx .contri-bx:hover {
-  transform: translateY(-6px);
-  border-color: rgba(170,54,124,0.6);
 }
 
 @media (max-width: 768px) {

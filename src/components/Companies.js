@@ -19,14 +19,21 @@ export const Companies = () => {
                             <h2>Contribution With🔥</h2>
                             <Reveal animation="zoomIn">
                                 <Row className="justify-content-center">
-                                    {active.map((c) => (
-                                        <Col xs={12} sm={8} md={6} lg={5} key={c.id}>
-                                            <div className="contri-bx">
+                                    {active.map((c) => {
+                                        const card = (
+                                            <div className="contri-bx fx-card">
                                                 <img src={c.logo} alt={c.name} />
                                                 <h5>{c.role || c.name}</h5>
                                             </div>
-                                        </Col>
-                                    ))}
+                                        );
+                                        return (
+                                            <Col xs={12} sm={8} md={6} lg={5} key={c.id}>
+                                                {c.link ? (
+                                                    <a href={c.link} target="_blank" rel="noreferrer" className="contri-link">{card}</a>
+                                                ) : card}
+                                            </Col>
+                                        );
+                                    })}
                                 </Row>
                             </Reveal>
                         </div>

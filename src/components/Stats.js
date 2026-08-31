@@ -10,13 +10,15 @@ export const Stats = () => {
     return (
         <section className="stats-section" id="stats">
             <Container>
-                <Row className="justify-content-center">
-                    {stats.map((s) => (
-                        <Col xs={6} md={3} key={s.id}>
-                            <StatCounter value={s.value} suffix={s.suffix} label={s.label} />
-                        </Col>
-                    ))}
-                </Row>
+                <div className="stats-glass">
+                    <Row className="justify-content-center align-items-center g-0">
+                        {stats.map((s) => (
+                            <Col xs={6} md={3} key={s.id}>
+                                <StatCounter value={s.value} suffix={s.suffix} label={s.label} />
+                            </Col>
+                        ))}
+                    </Row>
+                </div>
             </Container>
         </section>
     );

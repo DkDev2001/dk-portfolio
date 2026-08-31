@@ -6,9 +6,17 @@ import { useInView } from "../hooks/useInView";
 export const GradientGauge = ({ percent = 0, size = 200 }) => {
   const [ref, inView] = useInView({ threshold: 0.35 });
   const [val, setVal] = useState(0);
+  const [fallback, setFallback] = useState(false);
+
+  // Carousel clones can prevent the IntersectionObserver from firing, so also
+  // kick off the animation a moment after mount as a safety net.
+  useEffect(() => {
+    const t = setTimeout(() => setFallback(true), 700);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView && !fallback) return;
     const target = Number(percent) || 0;
     const dur = 1300;
     const start = performance.now();
@@ -21,7 +29,7 @@ export const GradientGauge = ({ percent = 0, size = 200 }) => {
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [inView, percent]);
+  }, [inView, fallback, percent]);
 
   const stroke = size * 0.075;
   const r = (size - stroke) / 2;
