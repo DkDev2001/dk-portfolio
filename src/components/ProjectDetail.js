@@ -1,6 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { GooglePlay, Apple, Globe2, ArrowLeft, Android2 } from "react-bootstrap-icons";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import { useFetch } from "../hooks/useFetch";
 import { getProject } from "../services/api";
 import { PhoneFrame } from "./PhoneFrame";
@@ -63,7 +66,9 @@ export const ProjectDetail = () => {
                         </div>
                         <h1>{project.title}</h1>
                         {project.completed_at && <p className="detail-date">Completed · {fmtMonth(project.completed_at)}</p>}
-                        <p className="detail-desc">{project.description}</p>
+                        <div className="detail-desc">
+                            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{project.description || ""}</ReactMarkdown>
+                        </div>
 
                         {tech.length > 0 && (
                             <div className="detail-tech">

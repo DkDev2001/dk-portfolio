@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { Phone, Laptop, Palette, Grid3x3Gap } from "react-bootstrap-icons";
+import { Phone, Laptop, Palette, Grid3x3Gap, Robot } from "react-bootstrap-icons";
 import { useFetch } from "../hooks/useFetch";
 import { getServices } from "../services/api";
 import { Reveal } from "./Reveal";
@@ -7,6 +7,7 @@ import { Reveal } from "./Reveal";
 // Fallback icon per service title keyword (used when no icon image uploaded).
 const fallbackIcon = (title = "") => {
     const t = title.toLowerCase();
+    if (/\bai\b/.test(t) || t.startsWith("ai") || t.includes("agent")) return Robot;
     if (t.includes("android") || t.includes("app") || t.includes("flutter") || t.includes("mobile")) return Phone;
     if (t.includes("web")) return Laptop;
     if (t.includes("ui") || t.includes("design")) return Palette;
@@ -14,8 +15,9 @@ const fallbackIcon = (title = "") => {
 };
 
 export const Services = () => {
-    const { data: services } = useFetch(getServices, []);
-    if (!services || !services.length) return null;
+    const { data: servicesRaw } = useFetch(getServices, []);
+    const services = (servicesRaw || []).filter((s) => s.visible != 0);
+    if (!services.length) return null;
 
     return (
         <section className="services" id="services">

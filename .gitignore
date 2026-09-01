@@ -1,1 +1,14 @@
-node_modules
+# dependencies
+/node_modules
+
+# production build (deployed to the gh-pages branch via `npm run deploy`)
+/build
+
+# secrets / local env
+.env
+.env.local
+.env.*.local
+
+# misc
+.DS_Store
+npm-debug.log*

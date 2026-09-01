@@ -16,8 +16,8 @@ const responsive = {
 
 // Render a category's skills as a responsive grid of icon tiles.
 const TechGrid = ({ items }) => (
-    <Row>
-        {items.map((s) => (
+    <Row className="justify-content-center">
+        {items.filter((s) => s.visible != 0).map((s) => (
             <Col xs={6} md={3} key={s.id}>
                 <div className="tech-item">
                     <img src={s.image} alt={s.title} />
@@ -60,10 +60,10 @@ export const Skills = ({ settings = {} }) => {
                             ) : (
                                 <>
                                     {/* Emergive Skills — carousel */}
-                                    {isOn(settings, "skills_visible") && experience && experience.items.length > 0 && (
+                                    {isOn(settings, "skills_visible") && experience && experience.items.filter((s) => s.visible != 0).length > 0 && (
                                         <Reveal animation="fadeInLeftBig">
                                             <Carousel responsive={responsive} infinite={true} className="skill-slider">
-                                                {experience.items.map((s) => (
+                                                {experience.items.filter((s) => s.visible != 0).map((s) => (
                                                     <div className="item gauge-item" key={s.id}>
                                                         <GradientGauge percent={s.percent} />
                                                         <h5>{s.title}</h5>

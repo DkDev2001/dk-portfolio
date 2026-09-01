@@ -39,6 +39,22 @@ function App() {
   const desc = s.seo_description || "Freelance Mobile App & Web developer.";
   const ga = s.analytics_id;
 
+  // Google Analytics — injected imperatively into <head>. react-helmet does not
+  // reliably render/execute <script> children, so GA is loaded here instead.
+  useEffect(() => {
+    if (!ga || window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    const s1 = document.createElement("script");
+    s1.async = true;
+    s1.src = `https://www.googletagmanager.com/gtag/js?id=${ga}`;
+    document.head.appendChild(s1);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", ga);
+  }, [ga]);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -62,11 +78,6 @@ function App() {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        {/* Google Analytics (only when an ID is configured) */}
-        {ga ? <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script> : null}
-        {ga ? (
-          <script>{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga}');`}</script>
-        ) : null}
       </Helmet>
 
       <div className="App">
