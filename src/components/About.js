@@ -28,7 +28,9 @@ export const About = () => {
                             <h2>{about.name}</h2>
                             {about.headline && <h4 className="about-headline">{about.headline}</h4>}
                             {about.location && <p className="about-loc"><GeoAlt /> {about.location}</p>}
-                            <p className="about-bio">{about.bio}</p>
+                            <div className="about-bio">
+                                {String(about.bio || "").split(/\n\s*\n/).filter(Boolean).map((p, i) => <p key={i}>{p}</p>)}
+                            </div>
                             {about.resume && (
                                 <a href={about.resume} target="_blank" rel="noreferrer" className="about-resume">
                                     <button><Download size={18} /> Download Resume</button>
