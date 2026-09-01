@@ -24,8 +24,8 @@
 .about h2 { font-size: 40px; font-weight: 700; }
 .about-headline { color: #cbb6ff; font-weight: 600; margin-bottom: 6px; }
 .about-loc { color: #B8B8B8; display: flex; align-items: center; gap: 6px; }
-.about-bio { color: #E6E6E6; font-size: 18px; line-height: 1.7em; max-width: 640px; }
-.about-bio p { margin: 0 0 14px; }
+.about-bio { color: #E6E6E6; font-size: 17.5px; line-height: 1.95; max-width: 640px; }
+.about-bio p { margin: 0 0 18px; line-height: 1.95; }
 .about-bio p:last-child { margin-bottom: 0; }
 .about-photo-wrap { position: relative; width: 78%; margin: 0 auto 20px; }
 .about-photo-wrap img { width: 100%; border-radius: 24px; border: 3px solid rgba(255,255,255,0.1); object-fit: cover; aspect-ratio: 1/1; }
