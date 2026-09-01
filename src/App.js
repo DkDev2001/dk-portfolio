@@ -55,6 +55,22 @@ function App() {
     gtag("config", ga);
   }, [ga]);
 
+  // Optional image protection (admin toggle) — block right-click context menu and
+  // drag-to-save on images site-wide. Off by default (only active when set to "1").
+  useEffect(() => {
+    if (s.protect_images !== "1" && s.protect_images !== 1) return;
+    const isImg = (t) => t && (t.tagName === "IMG" || t.tagName === "PICTURE" ||
+      (t.tagName === "svg") || (t.closest && t.closest(".phone-mock, .web-mock, .proj-img, img")));
+    const onCtx = (e) => { if (isImg(e.target)) e.preventDefault(); };
+    const onDrag = (e) => { if (isImg(e.target)) e.preventDefault(); };
+    document.addEventListener("contextmenu", onCtx);
+    document.addEventListener("dragstart", onDrag);
+    return () => {
+      document.removeEventListener("contextmenu", onCtx);
+      document.removeEventListener("dragstart", onDrag);
+    };
+  }, [s.protect_images]);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -68,7 +84,7 @@ function App() {
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={desc} />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href={`${process.env.PUBLIC_URL}/favicon.ico`} />
         {/* Open Graph / Twitter */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />

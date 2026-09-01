@@ -179,9 +179,18 @@
 .detail-desc h4 { color: #C6B4FF; font-weight: 700; font-size: 16.5px; line-height: 1.4; letter-spacing: 0.2px; margin: 22px 0 5px; }
 .detail-desc strong { color: #fff; font-weight: 700; }
 .detail-desc em { color: #efeaff; }
-.detail-desc ul, .detail-desc ol { margin: 0 0 17px; padding-left: 22px; }
-.detail-desc li { margin: 6px 0; padding-left: 3px; }
+/* Regular feature lists keep their bullet discs. */
+.detail-desc ul, .detail-desc ol { margin: 0 0 16px; padding-left: 22px; }
+.detail-desc li { margin: 6px 0; padding-left: 3px; line-height: 1.6; }
 .detail-desc li::marker { color: #9a7bff; }
+/* Stat lists (emoji-led). The emoji is the bullet, so no disc; a hanging indent
+   keeps a wrapped second line aligned under the text — separating each stat from
+   the next — with a mild gap between items. */
+.detail-desc ul.stat-list { list-style: none; padding-left: 0; margin: 0 0 16px; }
+.detail-desc ul.stat-list li { margin: 7px 0; line-height: 1.6; padding-left: 1.75em; text-indent: -1.75em; }
+.detail-desc ul.stat-list li::marker { content: ""; }
+/* Guard: if a list is "loose" (item wraps a <p>), keep it tight. */
+.detail-desc li p { margin: 0; line-height: inherit; }
 .detail-desc a { color: #cbb6ff; text-decoration: underline; }
 .detail-desc code { background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 5px; font-size: 0.9em; }
 .detail-desc blockquote { border-left: 3px solid rgba(170,54,124,0.6); margin: 0 0 14px; padding: 2px 0 2px 14px; color: #cfcfe6; }

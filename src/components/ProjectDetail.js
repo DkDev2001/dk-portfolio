@@ -13,6 +13,24 @@ import { PageSkeleton } from "./Skeleton";
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const fmtMonth = (d) => { if (!d) return ""; const p = String(d).slice(0, 7).split("-"); return p.length === 2 ? `${MONTHS[+p[1] - 1]} ${p[0]}` : ""; };
 
+// Flattens a hast node's text so we can detect emoji-led "stat" lines.
+const nodeText = (node) => {
+    if (!node) return "";
+    if (node.value) return node.value;
+    return (node.children || []).map(nodeText).join("");
+};
+const isStatText = (s) => /^\s*(⬆️|⬇️|⬆|⬇)/.test(s || "");
+
+// Tag emoji-led lists as stat lists so CSS drops the disc and hangs the indent;
+// regular feature lists keep their bullets.
+const MD = {
+    ul: ({ node, children, ...props }) => {
+        const items = (node.children || []).filter((c) => c.tagName === "li");
+        const isStat = items.length > 0 && items.every((li) => isStatText(nodeText(li)));
+        return <ul className={isStat ? "stat-list" : undefined} {...props}>{children}</ul>;
+    },
+};
+
 const PLATFORM_META = {
     android: { label: "Android", Icon: Android2, cls: "badge-android" },
     ios: { label: "iOS", Icon: Apple, cls: "badge-ios" },
@@ -67,7 +85,7 @@ export const ProjectDetail = () => {
                         <h1>{project.title}</h1>
                         {project.completed_at && <p className="detail-date">Completed · {fmtMonth(project.completed_at)}</p>}
                         <div className="detail-desc">
-                            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{project.description || ""}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD}>{project.description || ""}</ReactMarkdown>
                         </div>
 
                         {tech.length > 0 && (

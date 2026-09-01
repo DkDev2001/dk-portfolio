@@ -59,13 +59,18 @@ export const NavBar = ({ settings = {} }) => {
     setExpanded(false);
     const scroll = () => {
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      if (!el) return;
+      // Offset for the fixed navbar; scrollIntoView ignores it.
+      const y = el.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top: y, behavior: "smooth" });
     };
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(scroll, 150);
+      setTimeout(scroll, 220);
     } else {
-      scroll();
+      // Wait for the mobile menu to collapse before measuring — otherwise the
+      // still-expanded menu shifts layout and the scroll lands in the wrong place.
+      setTimeout(scroll, 180);
     }
   };
 
