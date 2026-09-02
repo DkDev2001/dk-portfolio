@@ -34,7 +34,9 @@ export const NavBar = ({ settings = {} }) => {
 
   useEffect(() => {
     const sections = ["home", "skills", "services"];
-    const onScroll = () => {
+    let ticking = false;
+    const measure = () => {
+      ticking = false;
       setScrolled(window.scrollY > 50);
       if (location.pathname !== "/") return;
       const line = 160; // just below the fixed navbar
@@ -47,8 +49,15 @@ export const NavBar = ({ settings = {} }) => {
       }
       setActiveSection((prev) => (prev === current ? prev : current));
     };
+    // rAF-throttle so scroll events don't trigger layout reads + re-renders on
+    // every pixel (was a source of scroll jank on mobile).
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(measure);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    measure();
     return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
 

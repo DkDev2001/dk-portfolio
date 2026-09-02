@@ -15,7 +15,10 @@ export const Fireflies = () => {
     const ctx = canvas.getContext("2d");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Cap the backing-store resolution — on phones force 1× so the full-screen
+    // canvas repaints cost far less each frame (major scroll-smoothness win).
+    const isPhone = window.innerWidth < 768;
+    let w = 0, h = 0, dpr = isPhone ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     let flies = [];
     let raf = 0;
     let running = true;
@@ -31,7 +34,7 @@ export const Fireflies = () => {
       canvas.style.height = h + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const density = w < 768 ? 0.00004 : 0.00006; // fewer on phones
+      const density = w < 768 ? 0.000028 : 0.00006; // fewer on phones (less per-frame gradient work)
       const count = Math.round(w * h * density);
       flies = Array.from({ length: count }, () => ({
         x: Math.random() * w,

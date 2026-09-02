@@ -168,10 +168,10 @@
 .detail-date { color: #B8B8B8; }
 .detail-desc { color: #D9DAE4; font-size: 16.5px; line-height: 1.75; }
 .detail-desc > *:first-child { margin-top: 0; }
-.detail-desc p { margin: 0 0 17px; }
-/* Prose paragraphs (intro / subtopic body / Impact) get airier spacing;
-   the stat block is the only paragraph with <br> lines, so it stays tight. */
-.detail-desc p:not(:has(br)) { line-height: 1.9; margin-bottom: 18px; }
+/* Prose paragraphs (intro / subtopic body / Impact) — airy, readable spacing.
+   Set line-height explicitly (a global `p` rule otherwise resets it to normal);
+   stats are their own list (.stat-list) and stay tight independently. */
+.detail-desc p { margin: 0 0 18px; line-height: 1.9; }
 /* Section titles (### Key Capabilities / Impact …) — clear breathing room above */
 .detail-desc h1, .detail-desc h2, .detail-desc h3 { color: #fff; font-weight: 700; line-height: 1.3; margin: 36px 0 16px; }
 .detail-desc h1 { font-size: 25px; }
@@ -831,8 +831,17 @@ nav.navbar .navbar-nav a.nav-link.navbar-link.active::after {
 /* Mobile: short indicator instead of a full-width underline */
 @media (max-width: 991px) {
   nav.navbar .navbar-nav a.nav-link.navbar-link::after {
-    left: 25px; right: auto; width: 26px; bottom: 4px;
+    left: 25px; right: auto; width: 26px; bottom: 6px;
   }
+  /* Taller, easier-to-tap menu rows with subtle separators */
+  nav.navbar .navbar-collapse { padding: 6px 0 10px; }
+  nav.navbar .navbar-nav a.nav-link.navbar-link {
+    padding: 16px 22px;
+    font-size: 19px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  nav.navbar .navbar-nav a.nav-link.navbar-link:last-child { border-bottom: none; }
+  span.navbar-text { margin-top: 12px; }
 }
 
 span.navbar-text {
@@ -1091,6 +1100,19 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   object-position: center;
   display: block;
   margin: 0 auto;
+}
+
+/* Mobile: the Emergive carousel shows one item — reclaim the horizontal space
+   (smaller card padding, full-width slider) so the gauge fills the row instead
+   of sitting small with big empty side gaps. Placed AFTER the base .skill-bx
+   rule so these win at equal specificity. */
+@media (max-width: 767px) {
+  .skill-bx { padding: 44px 18px; border-radius: 40px; }
+  .skill-slider { width: 100%; }
+  .skill-sub-bx { width: 100%; }
+  .gauge { width: 82%; max-width: 300px; }
+  .gauge-item { padding: 6px 2px; }
+  .gauge-item h5 { font-size: 20px; }
 }
 
 .background-image-left {

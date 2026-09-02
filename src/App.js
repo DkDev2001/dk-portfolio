@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from "react";
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { NavBar } from "./components/NavBar";
@@ -24,10 +24,38 @@ const isOn = (settings, key) => {
   return v === "1" || v === 1 || v === true;
 };
 
-// Scroll to top whenever the route changes.
+// Scroll to top whenever the route changes. The global `html { scroll-behavior:
+// smooth }` would otherwise animate this jump from the previous scroll position
+// (looks like the page scrolling up from the bottom on mobile), so temporarily
+// force an instant jump and restore smooth for in-page anchor navigation.
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => {
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => { html.style.scrollBehavior = prev; });
+  }, [pathname]);
+  return null;
+}
+
+// Restore the last in-app route after a reload. The site is embedded in an
+// iframe whose `src` has no hash, so reloading the page would reset it to Home;
+// we remember the route per-tab and restore it when we land back on Home.
+function RoutePersistence() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem("dk_route");
+      if (saved && saved !== "/" && pathname === "/") navigate(saved, { replace: true });
+    } catch (e) { /* storage blocked */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    try { sessionStorage.setItem("dk_route", pathname); } catch (e) { /* ignore */ }
+  }, [pathname]);
   return null;
 }
 
@@ -101,6 +129,7 @@ function App() {
         <Fireflies />
         <CardFX />
         <ScrollToTop />
+        <RoutePersistence />
         <NavBar settings={s} />
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
