@@ -3,16 +3,29 @@ import { Download, GeoAlt } from "react-bootstrap-icons";
 import { useFetch } from "../hooks/useFetch";
 import { getAbout } from "../services/api";
 import { Reveal } from "./Reveal";
+import { IdCard } from "./IdCard";
 
-export const About = () => {
+const isOn = (settings, key) => {
+    const v = settings ? settings[key] : undefined;
+    if (v === undefined || v === null) return true;
+    return v === "1" || v === 1 || v === true;
+};
+
+export const About = ({ settings = {} }) => {
     const { data: about } = useFetch(getAbout, {});
     if (!about || (!about.bio && !about.name)) return null;
+    const showCard = about.photo && isOn(settings, "idcard_visible");
 
     return (
         <section className="about" id="about">
             <Container>
                 <Row className="align-items-center">
-                    {about.photo && (
+                    {showCard && (
+                        <Col xs={12} md={5} className="about-card-col">
+                            <IdCard about={about} />
+                        </Col>
+                    )}
+                    {about.photo && !showCard && (
                         <Col xs={12} md={4} className="about-photo-col">
                             <Reveal animation="zoomIn">
                                 <div className="about-photo-wrap">
@@ -22,7 +35,7 @@ export const About = () => {
                             </Reveal>
                         </Col>
                     )}
-                    <Col xs={12} md={about.photo ? 8 : 12}>
+                    <Col xs={12} md={showCard ? 7 : about.photo ? 8 : 12}>
                         <Reveal animation="fadeInUp">
                             <span className="about-tag">About Me</span>
                             <h2>{about.name}</h2>

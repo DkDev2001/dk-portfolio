@@ -12,7 +12,7 @@ export const AboutPage = ({ settings = {} }) => {
     if (!isOn(settings, "about_visible")) return <Navigate to="/" replace />;
     return (
         <div className="subpage">
-            <About />
+            <About settings={settings} />
         </div>
     );
 };
